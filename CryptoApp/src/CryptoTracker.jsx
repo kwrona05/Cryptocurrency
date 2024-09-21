@@ -13,11 +13,11 @@ function CryptoTracker() {
   };
 
   return (
-  <div className="container">
-    <h1>Cryptocurrency Tracker</h1>
-    <CryptoList addToWatchList={addToWatchList} />
-    <WatchList watchList={watchList} />
-  </div>;
-  )
+    <div className="container">
+      <h1>Cryptocurrency Tracker</h1>
+      <CryptoList addToWatchList={addToWatchList} />
+      <WatchList watchList={watchList} />
+    </div>
+  );
 }
 export default CryptoTracker;

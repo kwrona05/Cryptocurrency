@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useState, useEffect } from "react";
 
 function CryptoList({ addToWatchList }) {
   const [cryptos, setCryptos] = useState([]);
@@ -33,7 +34,7 @@ function CryptoList({ addToWatchList }) {
     <div>
       <h2>The most popular Cryptocurrencies</h2>
       <ul>
-        {crypto.map((crypto) => (
+        {cryptos.map((crypto) => (
           <li key={crypto.id}>
             {crypto.name} (${crypto.current_price})
             <button onClick={() => handleAdd(crypto)}>Add to watchlist</button>
