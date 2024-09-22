@@ -24,42 +24,49 @@ ChartJS.register(
 );
 
 const CryptoChart = ({ id }) => {
-  const [chartData, setChartData] = useState({});
+  const [chartData, setChartData] = useState();
 
-  useEffect(() => {
-    const fetchChartData = async () => {
-      const result = await axios.get(
-        `https://api.coingecko.com/api/v3/coins/${id}/market_chart`,
+  const fetchChartData = async () => {
+    const result = await axios.get(
+      `https://api.coingecko.com/api/v3/coins/${id}/market_chart`,
+      {
+        params: {
+          vs_currency: "usd",
+          days: 7,
+        },
+      }
+    );
+
+    if (!result?.data) {
+      return;
+    }
+    const prices = result.data.prices?.map((price) => ({
+      x: new Date(price[0]).toLocaleDateString(),
+      y: price[1],
+    }));
+
+    setChartData({
+      labels: prices?.map((price) => price.x),
+      datasets: [
         {
-          params: {
-            vs_currency: "usd",
-            days: 7,
-          },
-        }
-      );
-
-      const prices = result.data.prices.map((price) => ({
-        x: new Date(price[0]).toLocaleDateString(),
-        y: price[1],
-      }));
-
-      setChartData({
-        labels: prices.map((price) => price.x),
-        datasets: [
-          {
-            label: `${id} Price in USD`,
-            data: prices.map((price) => price.y),
-            fill: false,
-            backgroundColor: "rgba(75, 192, 192, 0.2)",
-            borderColor: "rgba(75, 192, 192, 1)",
-          },
-        ],
-      });
-    };
+          label: `${id} Price in USD`,
+          data: prices?.map((price) => price.y),
+          fill: false,
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          borderColor: "rgba(75, 192, 192, 1)",
+        },
+      ],
+    });
+  };
+  useEffect(() => {
     fetchChartData();
-  }, [id]);
+  }, []);
 
-  return <Line data={chartData} />;
+  if (chartData) {
+    console.log({ chartData });
+    return <Line data={chartData} />;
+  }
+  return "Something went wrong!";
 };
 
 export default CryptoChart;

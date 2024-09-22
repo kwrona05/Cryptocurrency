@@ -52,7 +52,7 @@ function CryptoList({ addToWatchList }) {
         <p>No cryptocurrencies found</p>
       ) : (
         <ul>
-          {(cryptos || []).map(
+          {cryptos?.map(
             (
               crypto // Use fallback empty array to prevent undefined issues
             ) => (
