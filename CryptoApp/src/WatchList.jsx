@@ -1,12 +1,13 @@
 import CryptoChart from "./CryptoChart";
-function WatchList({ watchlist }) {
+import PropTypes from "prop-types";
+function WatchList({ watchList }) {
   return (
     <div>
       <h2>Watchlist</h2>
-      {watchlist.length === 0 ? (
+      {watchList.length === 0 ? (
         <p>No cryptocurrencies in your watchlist</p>
       ) : (
-        watchlist.map((crypto) => (
+        watchList.map((crypto) => (
           <div key={crypto.id}>
             <h3>{crypto.name}</h3>
             <CryptoChart id={crypto.id} />
@@ -16,4 +17,13 @@ function WatchList({ watchlist }) {
     </div>
   );
 }
+WatchList.propTypes = {
+  watchList: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+};
+
 export default WatchList;
