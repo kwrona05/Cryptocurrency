@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -6,7 +5,7 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 function CryptoList({ addToWatchList }) {
-  const [cryptos, setCryptos] = useState([]); // Default empty array
+  const [cryptos, setCryptos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -25,7 +24,7 @@ function CryptoList({ addToWatchList }) {
             },
           }
         );
-        setCryptos(result.data || []); // Ensure result.data is an array
+        setCryptos(result.data || []);
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -48,22 +47,18 @@ function CryptoList({ addToWatchList }) {
         <p>Loading...</p>
       ) : error ? (
         <p>{error}</p>
-      ) : cryptos && cryptos.length === 0 ? ( // Ensure cryptos is defined before accessing its length
+      ) : cryptos && cryptos.length === 0 ? (
         <p>No cryptocurrencies found</p>
       ) : (
         <ul>
-          {cryptos?.map(
-            (
-              crypto // Use fallback empty array to prevent undefined issues
-            ) => (
-              <li key={crypto.id}>
-                {crypto.name} (${crypto.current_price})
-                <button onClick={() => handleAdd(crypto)}>
-                  Add to watchlist
-                </button>
-              </li>
-            )
-          )}
+          {cryptos?.map((crypto) => (
+            <li key={crypto.id}>
+              {crypto.name} (${crypto.current_price})
+              <button onClick={() => handleAdd(crypto)}>
+                Add to watchlist
+              </button>
+            </li>
+          ))}
         </ul>
       )}
       <ToastContainer />
@@ -71,7 +66,7 @@ function CryptoList({ addToWatchList }) {
   );
 }
 CryptoList.propTypes = {
-  addToWatchList: PropTypes.func.isRequired, // Ensure addToWatchList is a required function
+  addToWatchList: PropTypes.func.isRequired,
 };
 
 export default CryptoList;
